@@ -204,6 +204,11 @@ export class ChiTietController {
     return this.appService.chiTiet.readChiTietXuat(ndId);
   }
 
+  @Put('edit-chitiet/:ctId')
+    editChiTiet(@Headers('token') token: string, @Param('ctId') ctId: number){
+      return this.appService.chiTiet.editChitiet(ctId);
+    }
+
   @Delete('del-chitiet/:ctId')
   delChiTiet(@Headers('token') token: string, @Param('ctId') ctId: number) {
     return this.appService.chiTiet.delChiTiet(+ctId);

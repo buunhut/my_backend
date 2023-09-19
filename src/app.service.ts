@@ -990,6 +990,10 @@ export class AppService {
       }
     },
 
+    async editChitiet(ctId: number){
+      return 'sửa chi tiết'
+    },
+
     async delChiTiet(ctId: number) {
       try {
         const chiTiet = await prisma.theoDoiChiTiet.findFirst({
