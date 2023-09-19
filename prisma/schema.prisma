@@ -1,0 +1,109 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model doiTac {
+  dtId           Int              @id @default(autoincrement())
+  maDt           String           @db.VarChar(100)
+  tenDt          String           @db.VarChar(255)
+  lienHe         String?          @db.VarChar(100)
+  email          String?          @db.VarChar(255)
+  phone          String?          @db.VarChar(20)
+  address        String?          @db.VarChar(255)
+  mst            String?          @db.VarChar(20)
+  loaiDt         String           @db.VarChar(10)
+  trangThai      String?          @db.VarChar(10)
+  ndId           Int
+  nguoiDung      nguoiDung        @relation(fields: [ndId], references: [ndId], onDelete: NoAction, onUpdate: NoAction, map: "doiTac_ibfk_1")
+  theoDoiChiTiet theoDoiChiTiet[]
+  theoDoiPhieu   theoDoiPhieu[]
+
+  @@index([ndId], map: "ndId")
+}
+
+model nguoiDung {
+  ndId           Int              @id @default(autoincrement())
+  taiKhoan       String           @db.VarChar(255)
+  matKhau        String           @db.VarChar(255)
+  fullName       String?          @db.VarChar(255)
+  email          String?          @db.VarChar(255)
+  phone          String?          @db.VarChar(20)
+  address        String?          @db.VarChar(255)
+  company        String?          @db.VarChar(255)
+  mst            String?          @db.VarChar(20)
+  avatar         String?          @db.VarChar(255)
+  trangThai      String?          @db.VarChar(10)
+  doiTac         doiTac[]
+  sanPham        sanPham[]
+  theoDoiChiTiet theoDoiChiTiet[]
+  theoDoiPhieu   theoDoiPhieu[]
+}
+
+model sanPham {
+  spId           Int              @id @default(autoincrement())
+  danhMuc        String           @db.VarChar(255)
+  maSp           String           @db.VarChar(100)
+  tenSp          String           @db.VarChar(255)
+  dvt            String?          @db.VarChar(20)
+  chiTiet        String?          @db.Text
+  baoHanh        Int?
+  tonKho         Int?
+  giaNhap        Decimal          @db.Decimal(18, 0)
+  giaBan         Decimal          @db.Decimal(18, 0)
+  hinhAnh        Json?
+  trangThai      String           @db.VarChar(10)
+  ndId           Int
+  nguoiDung      nguoiDung        @relation(fields: [ndId], references: [ndId], onDelete: NoAction, onUpdate: NoAction, map: "sanPham_ibfk_1")
+  theoDoiChiTiet theoDoiChiTiet[]
+
+  @@index([ndId], map: "ndId")
+}
+
+model theoDoiChiTiet {
+  ctId         Int          @id @default(autoincrement())
+  loaiPhieu    String       @db.VarChar(2)
+  ngay         DateTime     @db.Date
+  soPhieu      Int
+  dtId         Int
+  spId         Int
+  tenSp        String       @db.VarChar(255)
+  soLuong      Int
+  donGia       Decimal      @db.Decimal(18, 0)
+  thanhTien    Decimal      @db.Decimal(18, 0)
+  trangThai    String       @db.VarChar(10)
+  ndId         Int
+  theoDoiPhieu theoDoiPhieu @relation(fields: [soPhieu], references: [pId], onDelete: NoAction, onUpdate: NoAction, map: "theoDoiChiTiet_ibfk_1")
+  doiTac       doiTac       @relation(fields: [dtId], references: [dtId], onDelete: NoAction, onUpdate: NoAction, map: "theoDoiChiTiet_ibfk_2")
+  sanPham      sanPham      @relation(fields: [spId], references: [spId], onDelete: NoAction, onUpdate: NoAction, map: "theoDoiChiTiet_ibfk_3")
+  nguoiDung    nguoiDung    @relation(fields: [ndId], references: [ndId], onDelete: NoAction, onUpdate: NoAction, map: "theoDoiChiTiet_ibfk_4")
+
+  @@index([dtId], map: "dtId")
+  @@index([ndId], map: "ndId")
+  @@index([spId], map: "spId")
+  @@index([soPhieu], map: "soPhieu")
+}
+
+model theoDoiPhieu {
+  pId            Int              @id @default(autoincrement())
+  loaiPhieu      String           @db.VarChar(2)
+  ngay           DateTime         @db.Date
+  soPhieu        Int
+  dtId           Int
+  tongTien       Decimal          @db.Decimal(18, 0)
+  thanhToan      Decimal          @db.Decimal(18, 0)
+  conNo          Decimal          @db.Decimal(18, 0)
+  ghiChu         String?          @db.VarChar(100)
+  trangThai      String?          @db.VarChar(10)
+  ndId           Int
+  theoDoiChiTiet theoDoiChiTiet[]
+  doiTac         doiTac           @relation(fields: [dtId], references: [dtId], onDelete: NoAction, onUpdate: NoAction, map: "theoDoiPhieu_ibfk_1")
+  nguoiDung      nguoiDung        @relation(fields: [ndId], references: [ndId], onDelete: NoAction, onUpdate: NoAction, map: "theoDoiPhieu_ibfk_2")
+
+  @@index([dtId], map: "dtId")
+  @@index([ndId], map: "ndId")
+}
