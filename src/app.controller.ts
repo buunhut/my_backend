@@ -182,7 +182,7 @@ export class PhieuController {
   }
 }
 
-// @UseGuards(AuthGuard)
+@UseGuards(AuthGuard)
 @ApiTags('theo-doi-chi-tiet')
 @Controller()
 export class ChiTietController {
