@@ -30,7 +30,7 @@ import {
 
 @UseGuards(AuthBasic)
 @ApiTags('nguoi-dung')
-@Controller()
+@Controller('/api')
 export class AppController {
   constructor(private readonly nguoiDungService: NguoiDungService) {}
 
@@ -48,7 +48,7 @@ export class AppController {
 
 @UseGuards(AuthGuard)
 @ApiTags('san-pham')
-@Controller()
+@Controller('/api')
 export class SanPhamController {
   constructor(private readonly appService: AppService) {}
 
@@ -92,7 +92,7 @@ export class SanPhamController {
 
 @UseGuards(AuthGuard)
 @ApiTags('doi-tac')
-@Controller()
+@Controller('/api')
 export class DoiTacController {
   constructor(private readonly appService: AppService) {}
 
@@ -151,7 +151,7 @@ export class DoiTacController {
 
 @UseGuards(AuthGuard)
 @ApiTags('theo-doi-phieu')
-@Controller()
+@Controller('/api')
 export class PhieuController {
   constructor(private readonly appService: AppService) {}
 
@@ -184,7 +184,7 @@ export class PhieuController {
 
 @UseGuards(AuthGuard)
 @ApiTags('theo-doi-chi-tiet')
-@Controller()
+@Controller('/api')
 export class ChiTietController {
   constructor(private readonly appService: AppService) {}
 
